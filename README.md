@@ -35,10 +35,40 @@ Below table is listed of supported properties which can be sent to json parses c
 
 # Basic Json Example
 
-
 Test cases are written for basic json parsing, please follow [here](src/test/scala/com/jsonparser/spark/connector/BasicJsonTests.scala).
 
-## Complex Json Example
+
+```
+val simpleJson1 = """{
+      |"Name":"Name1",
+      |"Age":10,
+      |"Subjects":[{"English":80, "Maths":90, "Social":80}]
+      |}
+      |""".stripMargin
+
+val simpleJson2 = """{
+      |"Name":"Name2",
+      |"Age":11,
+      |"Subjects":[{"English":60, "Maths":95, "Social":70}]
+      |}
+      |""".stripMargin
+
+import spark.implicits._
+var inputDF=Seq(
+  ("Name1 Student",simpleJson1),
+  ("Name2 Student",simpleJson2)
+).toDF("Notes","Score")
+inputDF.createOrReplaceTempView("Students")
+```
+
+## Expanding all Json Fields and Not Consider Json Hierarchy in Output Column Names
+
+![screenshot](screenshots/SimpleJson/1.png)
+
+![screenshot](screenshots/SimpleJson/2.png)
+
+
+# Complex Json Example
 
 Below is the sample considered as an example. As you can notice it cover nested objects and nested collections.
 
