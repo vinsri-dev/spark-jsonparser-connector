@@ -1,0 +1,10 @@
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/scala_compiler.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+target
+derby.log
