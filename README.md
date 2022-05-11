@@ -14,6 +14,8 @@ Given a json column in dataframe, there are sql functions like explode. In cases
 The connector expects to pass table name or location to create a dataframe. Each row in dataframe is expected to have one or more columns with json strings. Connector post parsing the json will flatten the json data in each row from input dataframe and generates the output dataframe.
 Flattening the json column will lead to adding rows while dealing with collections in the json and adding columns while dealing with json properties.
 
+**Note : We also had a custom [rest api connector](https://github.com/vinsri-dev/spark-restapi-connector) to GET/POST/PUT Json from/to Rest End Point.
+While using GET and if you are fetching json string from Rest API, you can use this connector on top of the downloaded json column to parse and flatten.**
 
 ## Json Parser Connector Properties
 
@@ -31,6 +33,10 @@ Below table is listed of supported properties which can be sent to json parses c
 |DonotExpand|Json Properties which are to be not expanded or exploded while generating output data frame, should be mentioned here. Ex:- If 'RestCall_Response_Orders_OrderLines' is mentioned, then it means that after parsing input column 'RestCall_Response' based on mentioned schema (RestCall_Response_Schema), don't consider expand or explode property -> Orders.OrderLines, other wise if not mentioned then each order line in the collection will be flattened as a row in output data frame or if the property is an object each property of the object will be added as column in output data frame|
 |Exclude|Json Properties which are to be excluded while generating output data frame, should be mentioned here. Ex:- If 'RestCall_Response_Orders_Parties_Address' is mentioned, then it means that after parsing input column 'RestCall_Response' based on mentioned schema (RestCall_Response_Schema), don't consider property -> Orders.Parties.Address and thus will be excluded in output data frame|
 
+# Basic Json Example
+
+
+Test cases are written for basic json parsing, please follow [here](src/test/scala/com/jsonparser/spark/connector/BasicJsonTests.scala).
 
 ## Complex Json Example
 
