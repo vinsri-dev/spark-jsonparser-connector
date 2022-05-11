@@ -42,14 +42,16 @@ Test cases are written for basic json parsing, please follow [here](src/test/sca
 val simpleJson1 = """{
       |"Name":"Name1",
       |"Age":10,
-      |"Subjects":[{"English":80, "Maths":90, "Social":80}]
+      |"Subjects":{"English":80, "Maths":90, "Social":80},
+      |"Sports":["Soccer","Cricket"]
       |}
       |""".stripMargin
 
 val simpleJson2 = """{
       |"Name":"Name2",
       |"Age":11,
-      |"Subjects":[{"English":60, "Maths":95, "Social":70}]
+      |"Subjects":{"English":60, "Maths":95, "Social":70},
+      |"Sports":["Badminton","VolleyBall","BasketBall"]
       |}
       |""".stripMargin
 
@@ -61,7 +63,7 @@ var inputDF=Seq(
 inputDF.createOrReplaceTempView("Students")
 ```
 
-## Expanding all Json Fields and Not Consider Json Hierarchy in Output Column Names
+## Expanding all Json Fields Not Consider Json Hierarchy in Output Column Names and not Expand Sports
 
 ![screenshot](screenshots/SimpleJson/1.png)
 
