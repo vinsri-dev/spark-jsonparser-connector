@@ -44,10 +44,6 @@ class BasicJsonTests extends BaseTest {
     val tempView =
       s"""
          CREATE Or replace TEMPORARY VIEW DrugsDosage
-         |(
-         |  Notes string,
-         |  Drug string
-         |)
          |USING com.jsonparser.spark.connector
          |OPTIONS (
          |Table "Dosage",

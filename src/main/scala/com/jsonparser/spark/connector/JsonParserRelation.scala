@@ -15,8 +15,7 @@ import scala.collection.mutable
  * @param sparkSession
  */
 class JsonParserRelation(
-                        private  val config : Config,
-                        schemaProvided: StructType
+                        private  val config : Config
                       )
                         (@transient val sparkSession: SparkSession )
   extends BaseRelation with TableScan with Serializable {
@@ -194,7 +193,7 @@ class JsonParserRelation(
               innerField => {
 
                 //Adding the json property as a new column
-                Container.dataFrame = Container.dataFrame.withColumn(field.name + "_" + innerField.name, col(field.name + ".`" + innerField.name+"`"))
+                Container.dataFrame = Container.dataFrame.withColumn(field.name + "_" + innerField.name, col("`"+field.name + "`.`" + innerField.name+"`"))
 
                 //Adding the column name hierarchy and the actual property to map
                 columnNameMap +=  (field.name + "_" + innerField.name -> innerField.name)

@@ -23,7 +23,7 @@ class ComplexJsonTests extends BaseTest {
                     "associatedDrug":[{
                         "name":"asprin2",
                         "dose":"",
-                        "strength":"500 mg"
+                        "strength":"1000 mg"
                     },{
                         "name":"somethingElse",
                         "dose":"",
@@ -66,29 +66,26 @@ class ComplexJsonTests extends BaseTest {
     val tempView =
       s"""
          CREATE Or replace TEMPORARY VIEW DrugsDosage
-         |(
-         |  Notes string,
-         |  Drug string
-         |)
          |USING com.jsonparser.spark.connector
          |OPTIONS (
          |Table "Dosage",
          |JsonColumns "Drug",
          |Drug_Schema "`problems` ARRAY<STRUCT<`Diabetes`: ARRAY<STRUCT<`labs`: ARRAY<STRUCT<`missing_field`: STRING>>, `medications`: ARRAY<STRUCT<`medicationsClasses`: ARRAY<STRUCT<`className`: ARRAY<STRUCT<`associatedDrug`: ARRAY<STRUCT<`dose`: STRING, `name`: STRING, `strength`: STRING>>>>, `className2`: ARRAY<STRUCT<`associatedDrug`: ARRAY<STRUCT<`dose`: STRING, `name`: STRING, `strength`: STRING>>>>>>>>>>>>"
-         |))""".stripMargin
+         |)""".stripMargin
     Server.sparkSession.sql(tempView)
 
 
     //Filtering for student 1
-    val student1EnglishScore = Server.sparkSession.sql(
-      s"select English from StudentsScoreSheet where Name = 'Name1'").first().getLong(0)
+    val doseStrength = Server.sparkSession.sql(
+      s"select Drug_problems_Diabetes_medications_medicationsClasses_className_associatedDrug_strength from DrugsDosage where Drug_problems_Diabetes_medications_medicationsClasses_className_associatedDrug_name = 'asprin'").first().getString(0)
 
     //Filtering for student 1
-    val student2MathsScore = Server.sparkSession.sql(
-      s"select Maths from StudentsScoreSheet where Name = 'Name2'").first().getLong(0)
+    val dose2Strength = Server.sparkSession.sql(
+      s"select Drug_problems_Diabetes_medications_medicationsClasses_className2_associatedDrug_strength from DrugsDosage where Drug_problems_Diabetes_medications_medicationsClasses_className2_associatedDrug_name = 'asprin2'").first().getString(0)
 
-    assert(student1EnglishScore == 80)
-    assert(student2MathsScore == 95)
+
+    assert(doseStrength == "500 mg")
+    assert(dose2Strength == "1000 mg")
 
   }
 }

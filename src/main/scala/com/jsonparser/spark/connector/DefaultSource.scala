@@ -1,14 +1,14 @@
 package com.jsonparser.spark.connector
 
 import org.apache.spark.sql.SQLContext
-import org.apache.spark.sql.sources.{DataSourceRegister, SchemaRelationProvider}
+import org.apache.spark.sql.sources.{DataSourceRegister, RelationProvider, SchemaRelationProvider}
 import org.apache.spark.sql.types.StructType
 
 /**
  * Entry point for Json Parser Connector
  */
 
-class DefaultSource extends DataSourceRegister with SchemaRelationProvider {
+class DefaultSource extends DataSourceRegister with RelationProvider {
 
   //connector can be called using below short name
   override def shortName(): String = "jsonparser"
@@ -22,10 +22,9 @@ class DefaultSource extends DataSourceRegister with SchemaRelationProvider {
    * @return
    */
   override def createRelation(sqlContext: SQLContext,
-                              parameters: Map[String, String],
-                              schema: StructType): JsonParserRelation = {
+                              parameters: Map[String, String]): JsonParserRelation = {
 
-    new JsonParserRelation(getConfig(sqlContext, parameters), schema)(sqlContext.sparkSession)
+    new JsonParserRelation(getConfig(sqlContext, parameters))(sqlContext.sparkSession)
 
   }
 
